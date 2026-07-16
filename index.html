@@ -18,14 +18,14 @@
 
         /* Contenedor principal estilo Notion */
         .pomodoro-container {
-            background-color: #FAF6F0; /* Fondo crema suave */
+            background-color: #ffffff; /* Fondo blanco */
             border: 1px solid #EFEAE2;
-            border-radius: 16px;
-            padding: 25px 30px;
+            border-radius: 12px;
+            padding: 16px 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            width: 380px;
+            width: 270px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
         }
 
@@ -39,18 +39,18 @@
         .header {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
             color: #c9a789;
-            font-size: 13px;
+            font-size: 11px;
             font-weight: bold;
-            letter-spacing: 1.5px;
+            letter-spacing: 1.2px;
             text-transform: uppercase;
         }
 
         /* Icono de reloj dibujado con CSS puro */
         .clock-icon {
-            width: 14px;
-            height: 14px;
+            width: 12px;
+            height: 12px;
             border: 1.5px solid #c9a789;
             border-radius: 50%;
             position: relative;
@@ -59,18 +59,18 @@
             content: '';
             position: absolute;
             width: 1.5px;
-            height: 4px;
+            height: 3px;
             background-color: #c9a789;
-            top: 3px;
-            left: 6px;
+            top: 2.5px;
+            left: 5px;
         }
 
         /* Tiempo interactivo */
         .timer-display {
-            font-size: 48px;
+            font-size: 36px;
             color: #1e1e1e;
             line-height: 1;
-            margin: 5px 0;
+            margin: 4px 0;
             cursor: pointer; /* Indica que se puede hacer clic */
             transition: color 0.2s ease;
         }
@@ -80,7 +80,7 @@
 
         .subtitle {
             color: #8c857b;
-            font-size: 13px;
+            font-size: 11px;
             line-height: 1.4;
         }
 
@@ -93,10 +93,10 @@
 
         .control-btn {
             --progress: 0deg;
-            width: 70px;
-            height: 70px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
-            border: 3px solid #EFEAE2;
+            border: 2.5px solid #EFEAE2;
             background-color: transparent;
             display: flex;
             align-items: center;
@@ -110,9 +110,9 @@
         .control-btn::before {
             content: '';
             position: absolute;
-            top: -3px; left: -3px; right: -3px; bottom: -3px;
+            top: -2.5px; left: -2.5px; right: -2.5px; bottom: -2.5px;
             border-radius: 50%;
-            border: 3px solid transparent;
+            border: 2.5px solid transparent;
             border-top-color: #c9a789; /* Progreso inicial */
             transform: rotate(var(--progress));
             transition: transform 0.2s linear;
@@ -122,23 +122,23 @@
         .play-icon {
             width: 0;
             height: 0;
-            border-top: 10px solid transparent;
-            border-bottom: 10px solid transparent;
-            border-left: 16px solid #1e1e1e;
-            margin-left: 4px;
+            border-top: 7px solid transparent;
+            border-bottom: 7px solid transparent;
+            border-left: 11px solid #1e1e1e;
+            margin-left: 3px;
             transition: border-color 0.2s ease;
         }
 
         /* Icono de Pause (Dos barras verticales) */
         .pause-icon {
             display: none;
-            width: 14px;
-            height: 18px;
+            width: 10px;
+            height: 13px;
             justify-content: space-between;
         }
         .pause-icon::before, .pause-icon::after {
             content: '';
-            width: 4px;
+            width: 3px;
             height: 100%;
             background-color: #1e1e1e;
         }
@@ -161,10 +161,10 @@
                 <div class="clock-icon"></div>
                 <span>Pomodoro</span>
             </div>
-            <!-- Haz clic sobre el número para cambiar entre 25:00 y 90:00 -->
+            <!-- Haz clic sobre el número para ciclar entre 25:00, 30:00, 60:00 y 90:00 -->
             <div class="timer-display" id="timer" onclick="toggleDuration()">25:00</div>
             <div class="subtitle">
-                Enfoque total.<br>Sin distracciones.
+                Enfoque total ݁˖.<br>Sin distracciones .✦.
             </div>
         </div>
 
@@ -180,21 +180,20 @@
 <script>
     let timer;
     let isRunning = false;
-    let defaultMinutes = 25; // Comienza en 25 minutos por defecto
+    const durations = [25, 30, 60, 90]; // Tiempos disponibles en minutos
+    let durationIndex = 0;
+    let defaultMinutes = durations[durationIndex]; // Comienza en 25 minutos por defecto
     let timeLeft = defaultMinutes * 60; 
 
     const timerDisplay = document.getElementById('timer');
     const controlBtn = document.getElementById('controlBtn');
 
-    // Función para alternar la duración inicial (25 min <-> 90 min)
+    // Función para alternar la duración inicial entre los 4 tiempos disponibles
     function toggleDuration() {
         if (isRunning) return; // Bloquear el cambio si el temporizador está corriendo
         
-        if (defaultMinutes === 25) {
-            defaultMinutes = 90;
-        } else {
-            defaultMinutes = 25;
-        }
+        durationIndex = (durationIndex + 1) % durations.length;
+        defaultMinutes = durations[durationIndex];
         
         resetTimer();
     }
